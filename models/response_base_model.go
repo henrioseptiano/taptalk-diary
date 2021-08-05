@@ -39,9 +39,8 @@ type ResponseErrors struct {
 }
 
 // ResponseJSON ...
-func ResponseJSON(c *fiber.Ctx, data interface{}) {
-	c.JSON(fiber.Map{"code": http.StatusOK, "data": data})
-	return
+func ResponseJSON(c *fiber.Ctx, data interface{}) error {
+	return c.Status(http.StatusOK).JSON(fiber.Map{"code": http.StatusOK, "data": data})
 }
 
 // ResponsePagination ...
