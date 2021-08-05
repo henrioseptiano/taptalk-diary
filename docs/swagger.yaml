@@ -157,4 +157,11 @@ paths:
       summary: Register User
       tags:
       - User
+schemes:
+- http
+securityDefinitions:
+  Token:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

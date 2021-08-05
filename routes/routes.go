@@ -4,6 +4,7 @@ import (
 	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
 	User "github.com/henrioseptiano/taptalk-diary/app/users/controller"
+	UserService "github.com/henrioseptiano/taptalk-diary/app/users/services"
 )
 
 func SwaggerRoutes(app *fiber.App) {
@@ -13,7 +14,8 @@ func SwaggerRoutes(app *fiber.App) {
 }
 
 func UserRoutes(app *fiber.App) {
-	user := &User.UserController{}
+	userService := UserService.New()
+	user := &User.UserController{UserService: userService}
 	r := app.Group("/api/v1")
 	r.Post("/login", user.Login)
 	r.Post("/register", user.Register)

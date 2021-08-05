@@ -20,6 +20,10 @@ import (
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 // @host localhost:3000
+// @schemes http
+// @securityDefinitions.apikey Token
+// @in header
+// @name Authorization
 // @BasePath /
 func main() {
 	err := godotenv.Load()

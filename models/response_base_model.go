@@ -71,9 +71,8 @@ func ResponseDeleted(c *fiber.Ctx, message interface{}) {
 }
 
 // ResponseError Set response for delete process
-func ResponseError(c *fiber.Ctx, message interface{}, statusCode int) {
-	c.JSON(fiber.Map{"code": statusCode, "data": message})
-	return
+func ResponseError(c *fiber.Ctx, message interface{}, statusCode int) error {
+	return c.JSON(fiber.Map{"code": statusCode, "data": message})
 }
 
 // ResponseFailValidation Set response for fail validation

@@ -2,10 +2,12 @@ package controller
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/henrioseptiano/taptalk-diary/app/users"
 	"github.com/henrioseptiano/taptalk-diary/models"
 )
 
 type UserController struct {
+	UserService users.UserServicesInterfaces
 }
 
 // Login godoc
@@ -18,7 +20,15 @@ type UserController struct {
 // @Failure 401 {object} models.ResponseErrors "code: 401, message: "Username or password not valid, please try again" "
 // @Router /api/v1/login [post]
 func (u *UserController) Login(c *fiber.Ctx) error {
-	return models.ResponseJSON(c, fiber.Map{"token": "test"})
+	req := models.ReqUserLogin{}
+	if err := c.BodyParser(&req); err != nil {
+		return models.ResponseError(c, err.Error(), 401)
+	}
+	tokenString, err := u.UserService.LoginUser(&req)
+	if err != nil {
+		return models.ResponseError(c, "Cannot Create Token", 401)
+	}
+	return models.ResponseJSON(c, fiber.Map{"token": tokenString})
 }
 
 // Register godoc

@@ -251,6 +251,13 @@ var doc = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "Token": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
@@ -268,7 +275,7 @@ var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
 	Host:        "localhost:3000",
 	BasePath:    "/",
-	Schemes:     []string{},
+	Schemes:     []string{"http"},
 	Title:       "Fiber TapTalk Diary API",
 	Description: "This is a sample swagger for Fiber",
 }
