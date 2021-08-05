@@ -103,6 +103,116 @@ paths:
       summary: Check Device Login
       tags:
       - User
+  /api/v1/diary/{id}:
+    get:
+      operationId: GetDiaryById
+      responses:
+        "200":
+          description: 'token: "exampletokenresponse" '
+          schema:
+            $ref: '#/definitions/models.ResponseSuccess'
+        "401":
+          description: 'code: 401, message: "Username or password not valid, please
+            try again" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+        "422":
+          description: 'code: 422, message: "Invalid request" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+      security:
+      - token: []
+      summary: Get Diary By Id
+      tags:
+      - Diaries
+  /api/v1/diary/create:
+    post:
+      operationId: CreateDiary
+      responses:
+        "200":
+          description: 'token: "exampletokenresponse" '
+          schema:
+            $ref: '#/definitions/models.ResponseSuccess'
+        "401":
+          description: 'code: 401, message: "Username or password not valid, please
+            try again" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+        "422":
+          description: 'code: 422, message: "Invalid request" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+      security:
+      - token: []
+      summary: Create Diary
+      tags:
+      - Diaries
+  /api/v1/diary/delete/{id}:
+    delete:
+      operationId: DeleteDiary
+      responses:
+        "200":
+          description: 'token: "exampletokenresponse" '
+          schema:
+            $ref: '#/definitions/models.ResponseSuccess'
+        "401":
+          description: 'code: 401, message: "Username or password not valid, please
+            try again" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+        "422":
+          description: 'code: 422, message: "Invalid request" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+      security:
+      - token: []
+      summary: Delete Diary
+      tags:
+      - Diaries
+  /api/v1/diary/listall:
+    get:
+      operationId: ListAllDiaries
+      responses:
+        "200":
+          description: 'token: "exampletokenresponse" '
+          schema:
+            $ref: '#/definitions/models.ResponseSuccess'
+        "401":
+          description: 'code: 401, message: "Username or password not valid, please
+            try again" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+        "422":
+          description: 'code: 422, message: "Invalid request" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+      security:
+      - token: []
+      summary: List All Diaries
+      tags:
+      - Diaries
+  /api/v1/diary/update/{id}:
+    put:
+      operationId: UpdateDiary
+      responses:
+        "200":
+          description: 'token: "exampletokenresponse" '
+          schema:
+            $ref: '#/definitions/models.ResponseSuccess'
+        "401":
+          description: 'code: 401, message: "Username or password not valid, please
+            try again" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+        "422":
+          description: 'code: 422, message: "Invalid request" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+      security:
+      - token: []
+      summary: Update Diary
+      tags:
+      - Diaries
   /api/v1/login:
     post:
       operationId: LoginUser

@@ -3,8 +3,11 @@ package routes
 import (
 	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
+	Diary "github.com/henrioseptiano/taptalk-diary/app/diaries/controller"
+	DiaryService "github.com/henrioseptiano/taptalk-diary/app/diaries/services"
 	User "github.com/henrioseptiano/taptalk-diary/app/users/controller"
 	UserService "github.com/henrioseptiano/taptalk-diary/app/users/services"
+	"github.com/henrioseptiano/taptalk-diary/middleware"
 )
 
 func SwaggerRoutes(app *fiber.App) {
@@ -19,6 +22,17 @@ func UserRoutes(app *fiber.App) {
 	r := app.Group("/api/v1")
 	r.Post("/login", user.Login)
 	r.Post("/register", user.Register)
-	r.Get("/checkdevicelogin", user.CheckDeviceLogin)
-	r.Put("/changepassword", user.ChangePassword)
+	r.Get("/checkdevicelogin", middleware.JwtProtected(), user.CheckDeviceLogin)
+	r.Put("/changepassword", middleware.JwtProtected(), user.ChangePassword)
+}
+
+func DiaryRoutes(app *fiber.App) {
+	diaryService := DiaryService.New()
+	diary := &Diary.DiariesController{DiariesServices: diaryService}
+	r := app.Group("/api/v1/diary")
+	r.Post("/create", middleware.JwtProtected(), diary.CreateDiary)
+	r.Put("/update/:id", middleware.JwtProtected(), diary.UpdateDiary)
+	r.Delete("/delete/:id", middleware.JwtProtected(), diary.DeleteDiary)
+	r.Get("/listall", middleware.JwtProtected(), diary.ListAllDiaries)
+	r.Get(":id", middleware.JwtProtected(), diary.GetDiaryById)
 }

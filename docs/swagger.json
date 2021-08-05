@@ -88,6 +88,176 @@
                 }
             }
         },
+        "/api/v1/diary/create": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "tags": [
+                    "Diaries"
+                ],
+                "summary": "Create Diary",
+                "operationId": "CreateDiary",
+                "responses": {
+                    "200": {
+                        "description": "token: \"exampletokenresponse\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseSuccess"
+                        }
+                    },
+                    "401": {
+                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    },
+                    "422": {
+                        "description": "code: 422, message: \"Invalid request\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/diary/delete/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "tags": [
+                    "Diaries"
+                ],
+                "summary": "Delete Diary",
+                "operationId": "DeleteDiary",
+                "responses": {
+                    "200": {
+                        "description": "token: \"exampletokenresponse\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseSuccess"
+                        }
+                    },
+                    "401": {
+                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    },
+                    "422": {
+                        "description": "code: 422, message: \"Invalid request\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/diary/listall": {
+            "get": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "tags": [
+                    "Diaries"
+                ],
+                "summary": "List All Diaries",
+                "operationId": "ListAllDiaries",
+                "responses": {
+                    "200": {
+                        "description": "token: \"exampletokenresponse\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseSuccess"
+                        }
+                    },
+                    "401": {
+                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    },
+                    "422": {
+                        "description": "code: 422, message: \"Invalid request\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/diary/update/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "tags": [
+                    "Diaries"
+                ],
+                "summary": "Update Diary",
+                "operationId": "UpdateDiary",
+                "responses": {
+                    "200": {
+                        "description": "token: \"exampletokenresponse\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseSuccess"
+                        }
+                    },
+                    "401": {
+                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    },
+                    "422": {
+                        "description": "code: 422, message: \"Invalid request\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/diary/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "tags": [
+                    "Diaries"
+                ],
+                "summary": "Get Diary By Id",
+                "operationId": "GetDiaryById",
+                "responses": {
+                    "200": {
+                        "description": "token: \"exampletokenresponse\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseSuccess"
+                        }
+                    },
+                    "401": {
+                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    },
+                    "422": {
+                        "description": "code: 422, message: \"Invalid request\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/login": {
             "post": {
                 "tags": [

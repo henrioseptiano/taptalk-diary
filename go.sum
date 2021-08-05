@@ -35,6 +35,9 @@ github.com/go-openapi/swag v0.19.15/go.mod h1:QYRuS/SOXUCsnplDa677K7+DxSOj6IPNl/
 github.com/gofiber/fiber/v2 v2.15.0/go.mod h1:iftruuHGkRYGEXVISmdD7HTYWyfS2Bh+Dkfq4n/1Owg=
 github.com/gofiber/fiber/v2 v2.16.0 h1:Bly40vAh4qofpCoVYGLYC0TS9lNGNA1OVSPuzhIK7Q8=
 github.com/gofiber/fiber/v2 v2.16.0/go.mod h1:iftruuHGkRYGEXVISmdD7HTYWyfS2Bh+Dkfq4n/1Owg=
+github.com/gofiber/jwt/v2 v2.2.5 h1:yF7GQSWD6NCG1c/s2Db/trITTehG5dyYQW7ItDi7MO4=
+github.com/gofiber/jwt/v2 v2.2.5/go.mod h1:KHgcUv1J0Dc14ZCgRzFWO8GKakRT6uPcPcxbIEKmo4g=
+github.com/golang-jwt/jwt v3.2.1+incompatible/go.mod h1:8pz2t5EyA70fFQQSrl6XZXzqecmYZeUEB8OUGHkxJ+I=
 github.com/golang-jwt/jwt v3.2.2+incompatible h1:IfV12K8xAKAnZqdXVzCZ+TOjboZ2keLg81eXfW3O+oY=
 github.com/golang-jwt/jwt v3.2.2+incompatible/go.mod h1:8pz2t5EyA70fFQQSrl6XZXzqecmYZeUEB8OUGHkxJ+I=
 github.com/golang/snappy v0.0.3/go.mod h1:/XxbfmMg8lxefKM7IXC3fBNl/7bRcc72aCRzEWrmP2Q=
