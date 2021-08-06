@@ -66,40 +66,6 @@ var doc = `{
                 }
             }
         },
-        "/api/v1/checkdevicelogin": {
-            "get": {
-                "security": [
-                    {
-                        "Token": []
-                    }
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Check Device Login",
-                "operationId": "CheckDeviceLogin",
-                "responses": {
-                    "200": {
-                        "description": "token: \"exampletokenresponse\" ",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "401": {
-                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseErrors"
-                        }
-                    },
-                    "422": {
-                        "description": "code: 422, message: \"Invalid request\" ",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseErrors"
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/diary/create": {
             "post": {
                 "security": [
@@ -270,6 +236,40 @@ var doc = `{
                 }
             }
         },
+        "/api/v1/getcurrentdeviceid": {
+            "get": {
+                "security": [
+                    {
+                        "Token": []
+                    }
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get Current Device ID",
+                "operationId": "Get Current Device ID",
+                "responses": {
+                    "200": {
+                        "description": "token: \"exampletokenresponse\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseSuccess"
+                        }
+                    },
+                    "401": {
+                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    },
+                    "422": {
+                        "description": "code: 422, message: \"Invalid request\" ",
+                        "schema": {
+                            "$ref": "#/definitions/models.ResponseErrors"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/login": {
             "post": {
                 "tags": [
@@ -355,10 +355,14 @@ var doc = `{
         "models.ReqUserLogin": {
             "type": "object",
             "required": [
+                "deviceID",
                 "password",
                 "username"
             ],
             "properties": {
+                "deviceID": {
+                    "type": "string"
+                },
                 "password": {
                     "type": "string"
                 },

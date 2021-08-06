@@ -2,11 +2,14 @@ basePath: /
 definitions:
   models.ReqUserLogin:
     properties:
+      deviceID:
+        type: string
       password:
         type: string
       username:
         type: string
     required:
+    - deviceID
     - password
     - username
     type: object
@@ -79,28 +82,6 @@ paths:
       security:
       - token: []
       summary: Change Password
-      tags:
-      - User
-  /api/v1/checkdevicelogin:
-    get:
-      operationId: CheckDeviceLogin
-      responses:
-        "200":
-          description: 'token: "exampletokenresponse" '
-          schema:
-            $ref: '#/definitions/models.ResponseSuccess'
-        "401":
-          description: 'code: 401, message: "Username or password not valid, please
-            try again" '
-          schema:
-            $ref: '#/definitions/models.ResponseErrors'
-        "422":
-          description: 'code: 422, message: "Invalid request" '
-          schema:
-            $ref: '#/definitions/models.ResponseErrors'
-      security:
-      - Token: []
-      summary: Check Device Login
       tags:
       - User
   /api/v1/diary/{id}:
@@ -213,6 +194,28 @@ paths:
       summary: Update Diary
       tags:
       - Diaries
+  /api/v1/getcurrentdeviceid:
+    get:
+      operationId: Get Current Device ID
+      responses:
+        "200":
+          description: 'token: "exampletokenresponse" '
+          schema:
+            $ref: '#/definitions/models.ResponseSuccess'
+        "401":
+          description: 'code: 401, message: "Username or password not valid, please
+            try again" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+        "422":
+          description: 'code: 422, message: "Invalid request" '
+          schema:
+            $ref: '#/definitions/models.ResponseErrors'
+      security:
+      - Token: []
+      summary: Get Current Device ID
+      tags:
+      - User
   /api/v1/login:
     post:
       operationId: LoginUser

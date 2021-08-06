@@ -26,7 +26,7 @@ func UserRoutes(app *fiber.App, db *gorm.DB) {
 	r := app.Group("/api/v1")
 	r.Post("/login", user.Login)
 	r.Post("/register", user.Register)
-	r.Get("/checkdevicelogin", middleware.JwtProtected(), user.CheckDeviceLogin)
+	r.Get("/getcurrentdeviceid", middleware.JwtProtected(), user.GetCurrentDeviceID)
 	r.Put("/changepassword", middleware.JwtProtected(), user.ChangePassword)
 }
 

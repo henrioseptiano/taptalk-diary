@@ -6,6 +6,7 @@ import "github.com/golang-jwt/jwt"
 type ReqUserLogin struct {
 	Username string `json:"username" binding:"required"`
 	Password string `json:"password" binding:"required"`
+	DeviceID string `json:"deviceID" binding:"required"`
 }
 
 // ReqUserRegister ...
@@ -22,4 +23,10 @@ type UserClaims struct {
 	ID       int64  `json:"userID"`
 	Username string `json:"username"`
 	jwt.StandardClaims
+}
+
+// JwtCustomClaims
+type JwtCustomClaims struct {
+	ID       int64
+	Username string
 }

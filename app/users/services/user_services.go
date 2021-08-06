@@ -1,9 +1,8 @@
 package services
 
 import (
-	"os"
+	"errors"
 
-	"github.com/golang-jwt/jwt"
 	"github.com/henrioseptiano/taptalk-diary/app/users/repository"
 	"github.com/henrioseptiano/taptalk-diary/entity"
 	"github.com/henrioseptiano/taptalk-diary/models"
@@ -18,20 +17,28 @@ func New(userRepository repository.UserRepository) UserServices {
 	return UserServices{UserRepository: userRepository}
 }
 
+func (us UserServices) GetCurrentDeviceID(userID int64) string {
+	return us.UserRepository.GetCurrentDeviceID(userID)
+}
+
 func (us UserServices) LoginUser(users *models.ReqUserLogin) (string, error) {
-	secretKey := os.Getenv("SECRET_KEY")
-	mySecretKey := []byte(secretKey)
-	claims := models.UserClaims{
-		35,
-		users.Username,
-		jwt.StandardClaims{},
+	getUser := us.UserRepository.GetUserByUsername(users.Username)
+	if getUser == nil {
+		return "", errors.New("Username or Email is not valid. please register")
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString(mySecretKey)
-	if err != nil {
-		return "", err
+	getUserAuth := us.UserRepository.GetUserAuth(getUser.ID)
+	if getUserAuth == nil {
+		return "", errors.New("Username or Email is not valid. please register")
 	}
-	return tokenString, nil
+
+	if utils.CheckPasswordHash(users.Password, getUserAuth.Password) == false {
+		return "", errors.New("Incorrect Username or Password")
+	}
+
+	us.UserRepository.UpdateDeviceIDLastLogin(users.DeviceID, getUser.ID)
+
+	tokenString, err := utils.CreateToken(getUser)
+	return tokenString, err
 }
 
 func (us UserServices) RegisterUser(users *models.ReqUserRegister) error {

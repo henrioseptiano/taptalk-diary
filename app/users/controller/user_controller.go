@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/henrioseptiano/taptalk-diary/app/users"
 	"github.com/henrioseptiano/taptalk-diary/models"
+	"github.com/henrioseptiano/taptalk-diary/utils"
 )
 
 type UserController struct {
@@ -26,7 +27,7 @@ func (u UserController) Login(c *fiber.Ctx) error {
 	}
 	tokenString, err := u.UserService.LoginUser(&req)
 	if err != nil {
-		return models.ResponseError(c, "Cannot Create Token", 401)
+		return models.ResponseError(c, err.Error(), 401)
 	}
 	return models.ResponseJSON(c, fiber.Map{"token": tokenString})
 }
@@ -52,17 +53,22 @@ func (u UserController) Register(c *fiber.Ctx) error {
 	return models.ResponseJSON(c, fiber.Map{"message": "User Successfully Created"})
 }
 
-// CheckDeviceLogin godoc
-// @Summary Check Device Login
-// @Id CheckDeviceLogin
+// GetCurrentDeviceID godoc
+// @Summary Get Current Device ID
+// @Id Get Current Device ID
 // @Tags User
 // @Security Token
 // @Success 200 {object} models.ResponseSuccess "token: "exampletokenresponse" "
 // @Failure 422 {object} models.ResponseErrors "code: 422, message: "Invalid request" "
 // @Failure 401 {object} models.ResponseErrors "code: 401, message: "Username or password not valid, please try again" "
-// @Router /api/v1/checkdevicelogin [get]
-func (u UserController) CheckDeviceLogin(c *fiber.Ctx) error {
-	return models.ResponseJSON(c, fiber.Map{"token": "checkDeviceLogin"})
+// @Router /api/v1/getcurrentdeviceid [get]
+func (u UserController) GetCurrentDeviceID(c *fiber.Ctx) error {
+	claims, err := utils.ExtractTokenMetadata(c)
+	if err != nil {
+		return models.ResponseError(c, err.Error(), 401)
+	}
+	deviceID := u.UserService.GetCurrentDeviceID(claims.ID)
+	return models.ResponseJSON(c, fiber.Map{"deviceID": deviceID})
 }
 
 // ChangePassword godoc
