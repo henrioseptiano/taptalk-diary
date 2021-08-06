@@ -6,8 +6,10 @@ import (
 	Diary "github.com/henrioseptiano/taptalk-diary/app/diaries/controller"
 	DiaryService "github.com/henrioseptiano/taptalk-diary/app/diaries/services"
 	User "github.com/henrioseptiano/taptalk-diary/app/users/controller"
+	UserRepo "github.com/henrioseptiano/taptalk-diary/app/users/repository"
 	UserService "github.com/henrioseptiano/taptalk-diary/app/users/services"
 	"github.com/henrioseptiano/taptalk-diary/middleware"
+	"gorm.io/gorm"
 )
 
 func SwaggerRoutes(app *fiber.App) {
@@ -16,8 +18,10 @@ func SwaggerRoutes(app *fiber.App) {
 
 }
 
-func UserRoutes(app *fiber.App) {
-	userService := UserService.New()
+func UserRoutes(app *fiber.App, db *gorm.DB) {
+	userRepo := UserRepo.New(db)
+	userService := UserService.New(userRepo)
+
 	user := &User.UserController{UserService: userService}
 	r := app.Group("/api/v1")
 	r.Post("/login", user.Login)

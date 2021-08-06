@@ -1,12 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/henrioseptiano/taptalk-diary/routes"
 	"github.com/joho/godotenv"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 
 	_ "github.com/henrioseptiano/taptalk-diary/docs"
 )
@@ -32,9 +36,30 @@ func main() {
 	}
 
 	port := os.Getenv("PORT")
-
+	dbUser := os.Getenv("DB_USERNAME")
+	dbPassword := os.Getenv("DB_PASSWORD")
+	dbHost := os.Getenv("DB_HOST")
+	dbPort, _ := strconv.Atoi(os.Getenv("DB_PORT"))
+	dbName := os.Getenv("DB_NAME")
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+		dbUser,
+		dbPassword,
+		dbHost,
+		dbPort,
+		dbName,
+	)
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		log.Fatalln("Cannot Connect to Database")
+	}
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatalln("Cannot Connect to Database")
+	}
+	defer sqlDB.Close()
 	app := fiber.New()
 	routes.SwaggerRoutes(app)
-	routes.UserRoutes(app)
+	routes.UserRoutes(app, db)
+	routes.DiaryRoutes(app)
 	app.Listen(":" + port)
 }

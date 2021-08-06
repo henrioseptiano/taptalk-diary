@@ -99,7 +99,7 @@ paths:
           schema:
             $ref: '#/definitions/models.ResponseErrors'
       security:
-      - token: []
+      - Token: []
       summary: Check Device Login
       tags:
       - User

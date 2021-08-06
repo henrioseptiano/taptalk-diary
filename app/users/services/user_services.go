@@ -4,17 +4,21 @@ import (
 	"os"
 
 	"github.com/golang-jwt/jwt"
+	"github.com/henrioseptiano/taptalk-diary/app/users/repository"
+	"github.com/henrioseptiano/taptalk-diary/entity"
 	"github.com/henrioseptiano/taptalk-diary/models"
+	"github.com/henrioseptiano/taptalk-diary/utils"
 )
 
 type UserServices struct {
+	UserRepository repository.UserRepository
 }
 
-func New() *UserServices {
-	return &UserServices{}
+func New(userRepository repository.UserRepository) UserServices {
+	return UserServices{UserRepository: userRepository}
 }
 
-func (us *UserServices) LoginUser(users *models.ReqUserLogin) (string, error) {
+func (us UserServices) LoginUser(users *models.ReqUserLogin) (string, error) {
 	secretKey := os.Getenv("SECRET_KEY")
 	mySecretKey := []byte(secretKey)
 	claims := models.UserClaims{
@@ -28,4 +32,28 @@ func (us *UserServices) LoginUser(users *models.ReqUserLogin) (string, error) {
 		return "", err
 	}
 	return tokenString, nil
+}
+
+func (us UserServices) RegisterUser(users *models.ReqUserRegister) error {
+	masterUsers := &entity.MasterUser{
+		Username: users.Username,
+		Email:    users.Email,
+		Birthday: users.Birthday,
+		FullName: users.Fullname,
+	}
+	trx, err := us.UserRepository.InsertUser(masterUsers)
+	if err != nil {
+		return err
+	}
+	userAuth := &entity.UserAuth{
+		UserID:   masterUsers.ID,
+		Password: utils.HashedPassword(users.Password),
+		DeviceID: "",
+	}
+	err = us.UserRepository.CreateUserAuth(trx, userAuth)
+	if err != nil {
+		return err
+	}
+	trx.Commit()
+	return nil
 }

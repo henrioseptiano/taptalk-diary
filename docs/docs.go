@@ -70,7 +70,7 @@ var doc = `{
             "get": {
                 "security": [
                     {
-                        "token": []
+                        "Token": []
                     }
                 ],
                 "tags": [

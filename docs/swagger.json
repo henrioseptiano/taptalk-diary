@@ -58,7 +58,7 @@
             "get": {
                 "security": [
                     {
-                        "token": []
+                        "Token": []
                     }
                 ],
                 "tags": [
