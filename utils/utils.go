@@ -3,6 +3,7 @@ package utils
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 
@@ -83,4 +84,19 @@ func CreateToken(getUser *entity.MasterUser) (string, error) {
 		return "", err
 	}
 	return tokenString, nil
+}
+
+func IsEmailValid(email string) bool {
+	emailRegex := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
+	return emailRegex.MatchString(email)
+}
+
+func IsBirthdayValid(birthday string) bool {
+	birthdayRegex := regexp.MustCompile(`\d{2}-\d{2}-\d{4}`)
+	return birthdayRegex.MatchString(birthday)
+}
+
+func IsPasswordValid(password string) bool {
+	passwordRegex := regexp.MustCompile(`^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,32}`)
+	return passwordRegex.MatchString(password)
 }

@@ -42,6 +42,15 @@ func (us UserServices) LoginUser(users *models.ReqUserLogin) (string, error) {
 }
 
 func (us UserServices) RegisterUser(users *models.ReqUserRegister) error {
+	if utils.IsEmailValid(users.Email) == false {
+		return errors.New("Email is not valid")
+	}
+	if utils.IsBirthdayValid(users.Birthday) == false {
+		return errors.New("Birthday format is not valid")
+	}
+	if utils.IsPasswordValid(users.Password) == false {
+		return errors.New("Password format must have at least one uppercase, one lowercase, one number, one special character")
+	}
 	masterUsers := &entity.MasterUser{
 		Username: users.Username,
 		Email:    users.Email,
