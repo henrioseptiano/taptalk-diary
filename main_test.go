@@ -95,7 +95,7 @@ func testCreateDiaries(t *testing.T) {
 	}
 	body, _ := json.Marshal(loginPostBody)
 	req, _ := http.NewRequest("POST", "/api/v1/diary/create", bytes.NewReader(body))
-	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
+	req.Header.Set("Authorization", "Bearer YOUR_API_TOKEN")
 
 	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
@@ -110,7 +110,7 @@ func testUpdateDiaries(t *testing.T) {
 	}
 	body, _ := json.Marshal(loginPostBody)
 	req, _ := http.NewRequest("PUT", "/api/v1/diary/update/4", bytes.NewReader(body))
-	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
+	req.Header.Set("Authorization", "Bearer YOUR_API_TOKEN")
 
 	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
@@ -119,7 +119,7 @@ func testUpdateDiaries(t *testing.T) {
 func testDeleteDiaries(t *testing.T) {
 	app := Setup()
 	req, _ := http.NewRequest("DELETE", "/api/v1/diary/delete/4", nil)
-	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
+	req.Header.Set("Authorization", "Bearer YOUR_API_TOKEN")
 
 	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
@@ -132,7 +132,7 @@ func testListAllDiaries(t *testing.T) {
 	q.Add("year", "2021")
 	q.Add("quarter", "3")
 	req.URL.RawQuery = q.Encode()
-	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
+	req.Header.Set("Authorization", "Bearer YOUR_API_TOKEN")
 	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
 }
@@ -140,7 +140,7 @@ func testListAllDiaries(t *testing.T) {
 func testGetDiariesByID(t *testing.T) {
 	app := Setup()
 	req, _ := http.NewRequest("GET", "/api/v1/diary/3", nil)
-	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
+	req.Header.Set("Authorization", "Bearer YOUR_API_TOKEN")
 	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
 }
@@ -148,7 +148,7 @@ func testGetDiariesByID(t *testing.T) {
 func testGetCurrentDeviceID(t *testing.T) {
 	app := Setup()
 	req, _ := http.NewRequest("GET", "/api/v1/getcurrentdeviceid", nil)
-	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
+	req.Header.Set("Authorization", "Bearer YOUR_API_TOKEN")
 	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
 }
