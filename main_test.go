@@ -81,10 +81,9 @@ func testLogin(t *testing.T) {
 	}
 	body, _ := json.Marshal(loginPostBody)
 	req, _ := http.NewRequest("POST", "/api/v1/login", bytes.NewReader(body))
-	res, err := app.Test(req)
+	res, _ := app.Test(req)
 
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
-	utils.AssertEqual(t, nil, err, "app.Test")
 }
 
 func testCreateDiaries(t *testing.T) {
@@ -98,9 +97,8 @@ func testCreateDiaries(t *testing.T) {
 	req, _ := http.NewRequest("POST", "/api/v1/diary/create", bytes.NewReader(body))
 	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
 
-	res, err := app.Test(req)
+	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
-	utils.AssertEqual(t, nil, err, "app.Test")
 }
 
 func testUpdateDiaries(t *testing.T) {
@@ -114,9 +112,8 @@ func testUpdateDiaries(t *testing.T) {
 	req, _ := http.NewRequest("PUT", "/api/v1/diary/update/4", bytes.NewReader(body))
 	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
 
-	res, err := app.Test(req)
+	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
-	utils.AssertEqual(t, nil, err, "app.Test")
 }
 
 func testDeleteDiaries(t *testing.T) {
@@ -124,9 +121,8 @@ func testDeleteDiaries(t *testing.T) {
 	req, _ := http.NewRequest("DELETE", "/api/v1/diary/delete/4", nil)
 	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
 
-	res, err := app.Test(req)
+	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
-	utils.AssertEqual(t, nil, err, "app.Test")
 }
 
 func testListAllDiaries(t *testing.T) {
@@ -139,7 +135,6 @@ func testListAllDiaries(t *testing.T) {
 	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
 	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
-	//utils.AssertEqual(t, nil, err, "app.Test")
 }
 
 func testGetDiariesByID(t *testing.T) {
@@ -148,7 +143,6 @@ func testGetDiariesByID(t *testing.T) {
 	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
 	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
-	//utils.AssertEqual(t, nil, err, "app.Test")
 }
 
 func testGetCurrentDeviceID(t *testing.T) {
@@ -157,7 +151,6 @@ func testGetCurrentDeviceID(t *testing.T) {
 	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjMsInVzZXJuYW1lIjoiaGVucmlvMiJ9.A7dbpb2Bx6d_UZcGZUsNQVj0bG4QF84n29Q-kvrW0TQ")
 	res, _ := app.Test(req)
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
-	//utils.AssertEqual(t, nil, err, "app.Test")
 }
 
 func TestRoutes(t *testing.T) {
