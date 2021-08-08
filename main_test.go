@@ -16,9 +16,6 @@ import (
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	//"github.com/gofiber/fiber/v2"
-	//utils "github.com/gofiber/v2/utils"
-	//user "github.com/henrioseptiano/taptalk-diary/app/user"
 )
 
 func Setup() *fiber.App {
@@ -43,11 +40,6 @@ func Setup() *fiber.App {
 	if err != nil {
 		log.Fatalln("Cannot Connect to Database")
 	}
-	/*sqlDB, err := db.DB()
-	if err != nil {
-		log.Fatalln("Cannot Connect to Database")
-	}*/
-	//defer sqlDB.Close()
 	app := fiber.New()
 	routes.SwaggerRoutes(app)
 	routes.UserRoutes(app, db)
@@ -69,7 +61,6 @@ func testRegister(t *testing.T) {
 	res, _ := app.Test(req)
 
 	utils.AssertEqual(t, 200, res.StatusCode, "Status code")
-	//utils.AssertEqual(t, nil, err, "app.Test")
 }
 
 func testLogin(t *testing.T) {
