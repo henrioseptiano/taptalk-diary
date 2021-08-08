@@ -19,7 +19,7 @@ $ go run main.go
 OR 
 $ go build <Your Executed file>
 # to open the swagger 
-localhost:<yourport>/swagger/
+localhost:yourport/swagger/
 # if you want to unit test
 there is main_test.go in root project, to run it:
 $ go test
