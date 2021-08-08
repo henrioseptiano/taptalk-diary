@@ -1,5 +1,42 @@
 basePath: /
 definitions:
+  entity.UserDiary:
+    properties:
+      bodyText:
+        type: string
+      createdAt:
+        type: string
+      datePost:
+        type: string
+      deletedAt:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+      updatedAt:
+        type: string
+      userId:
+        type: integer
+    type: object
+  models.ReqCreateDiary:
+    properties:
+      bodyText:
+        type: string
+      datePost:
+        type: string
+      title:
+        type: string
+    type: object
+  models.ReqUpdateDiary:
+    properties:
+      bodyText:
+        type: string
+      datePost:
+        type: string
+      title:
+        type: string
+    type: object
   models.ReqUserLogin:
     properties:
       deviceID:
@@ -62,36 +99,14 @@ info:
   title: Fiber TapTalk Diary API
   version: "1.0"
 paths:
-  /api/v1/changepassword:
-    put:
-      operationId: ChangePassword
-      responses:
-        "200":
-          description: 'token: "exampletokenresponse" '
-          schema:
-            $ref: '#/definitions/models.ResponseSuccess'
-        "401":
-          description: 'code: 401, message: "Username or password not valid, please
-            try again" '
-          schema:
-            $ref: '#/definitions/models.ResponseErrors'
-        "422":
-          description: 'code: 422, message: "Invalid request" '
-          schema:
-            $ref: '#/definitions/models.ResponseErrors'
-      security:
-      - token: []
-      summary: Change Password
-      tags:
-      - User
   /api/v1/diary/{id}:
     get:
       operationId: GetDiaryById
       responses:
         "200":
-          description: 'token: "exampletokenresponse" '
+          description: entity.UserDiary
           schema:
-            $ref: '#/definitions/models.ResponseSuccess'
+            $ref: '#/definitions/entity.UserDiary'
         "401":
           description: 'code: 401, message: "Username or password not valid, please
             try again" '
@@ -102,21 +117,27 @@ paths:
           schema:
             $ref: '#/definitions/models.ResponseErrors'
       security:
-      - token: []
+      - Token: []
       summary: Get Diary By Id
       tags:
       - Diaries
   /api/v1/diary/create:
     post:
       operationId: CreateDiary
+      parameters:
+      - description: 'all fields mandatory. for datePost (ex: DD-MM-YYYY)'
+        in: body
+        name: create
+        required: true
+        schema:
+          $ref: '#/definitions/models.ReqCreateDiary'
       responses:
         "200":
-          description: 'token: "exampletokenresponse" '
+          description: Diary Successfully Created
           schema:
             $ref: '#/definitions/models.ResponseSuccess'
         "401":
-          description: 'code: 401, message: "Username or password not valid, please
-            try again" '
+          description: 'code: 401, message: "JWT Token is not valid" '
           schema:
             $ref: '#/definitions/models.ResponseErrors'
         "422":
@@ -124,16 +145,22 @@ paths:
           schema:
             $ref: '#/definitions/models.ResponseErrors'
       security:
-      - token: []
+      - Token: []
       summary: Create Diary
       tags:
       - Diaries
   /api/v1/diary/delete/{id}:
     delete:
       operationId: DeleteDiary
+      parameters:
+      - description: Diary ID
+        in: path
+        name: id
+        required: true
+        type: integer
       responses:
         "200":
-          description: 'token: "exampletokenresponse" '
+          description: 'Diary Successfully Deleted" '
           schema:
             $ref: '#/definitions/models.ResponseSuccess'
         "401":
@@ -146,16 +173,36 @@ paths:
           schema:
             $ref: '#/definitions/models.ResponseErrors'
       security:
-      - token: []
+      - Token: []
       summary: Delete Diary
       tags:
       - Diaries
   /api/v1/diary/listall:
     get:
       operationId: ListAllDiaries
+      parameters:
+      - description: ' '
+        in: query
+        name: page
+        type: string
+      - description: ' '
+        in: query
+        name: limit
+        type: string
+      - description: year of posted diaries
+        in: query
+        name: year
+        required: true
+        type: string
+      - description: 'Quarter of diaries: ex (1 : January - March, 2: April - June,
+          3: July - September, 4: October - December)'
+        in: query
+        name: quarter
+        required: true
+        type: string
       responses:
         "200":
-          description: 'token: "exampletokenresponse" '
+          description: models.Pagination
           schema:
             $ref: '#/definitions/models.ResponseSuccess'
         "401":
@@ -168,21 +215,32 @@ paths:
           schema:
             $ref: '#/definitions/models.ResponseErrors'
       security:
-      - token: []
+      - Token: []
       summary: List All Diaries
       tags:
       - Diaries
   /api/v1/diary/update/{id}:
     put:
       operationId: UpdateDiary
+      parameters:
+      - description: Diary ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 'all fields mandatory. for datePost (ex: DD-MM-YYYY)'
+        in: body
+        name: update
+        required: true
+        schema:
+          $ref: '#/definitions/models.ReqUpdateDiary'
       responses:
         "200":
-          description: 'token: "exampletokenresponse" '
+          description: Diary Successfully Updated
           schema:
             $ref: '#/definitions/models.ResponseSuccess'
         "401":
-          description: 'code: 401, message: "Username or password not valid, please
-            try again" '
+          description: 'code: 401, message: "Invalid ID" '
           schema:
             $ref: '#/definitions/models.ResponseErrors'
         "422":
@@ -190,7 +248,7 @@ paths:
           schema:
             $ref: '#/definitions/models.ResponseErrors'
       security:
-      - token: []
+      - Token: []
       summary: Update Diary
       tags:
       - Diaries
@@ -199,12 +257,11 @@ paths:
       operationId: Get Current Device ID
       responses:
         "200":
-          description: 'token: "exampletokenresponse" '
+          description: exampledeviceid
           schema:
             $ref: '#/definitions/models.ResponseSuccess'
         "401":
-          description: 'code: 401, message: "Username or password not valid, please
-            try again" '
+          description: 'code: 401, message: "device ID not found" '
           schema:
             $ref: '#/definitions/models.ResponseErrors'
         "422":
@@ -247,7 +304,7 @@ paths:
     post:
       operationId: RegisterUser
       parameters:
-      - description: all fields mandatory
+      - description: 'all fields mandatory. ex: (Birthday format DD-MM-YYYY)'
         in: body
         name: register
         required: true
@@ -255,12 +312,11 @@ paths:
           $ref: '#/definitions/models.ReqUserRegister'
       responses:
         "200":
-          description: 'token: "exampletokenresponse" '
+          description: 'token: "User Successfully Registered" '
           schema:
             $ref: '#/definitions/models.ResponseSuccess'
         "401":
-          description: 'code: 401, message: "Username or password not valid, please
-            try again" '
+          description: 'code: 401, message: "Invalid Email Format" '
           schema:
             $ref: '#/definitions/models.ResponseErrors'
         "422":

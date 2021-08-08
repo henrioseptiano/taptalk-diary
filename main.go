@@ -60,6 +60,6 @@ func main() {
 	app := fiber.New()
 	routes.SwaggerRoutes(app)
 	routes.UserRoutes(app, db)
-	routes.DiaryRoutes(app)
+	routes.DiaryRoutes(app, db)
 	app.Listen(":" + port)
 }

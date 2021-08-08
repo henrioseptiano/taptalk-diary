@@ -2,10 +2,12 @@ package utils
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"regexp"
 	"strconv"
 	"strings"
+	"unicode"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
@@ -97,6 +99,105 @@ func IsBirthdayValid(birthday string) bool {
 }
 
 func IsPasswordValid(password string) bool {
-	passwordRegex := regexp.MustCompile(`^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,32}`)
-	return passwordRegex.MatchString(password)
+	var (
+		hasMinlen  = false
+		hasUpper   = false
+		hasLower   = false
+		hasNumber  = false
+		hasSpecial = false
+	)
+	if len(password) >= 6 && len(password) <= 32 {
+		hasMinlen = true
+	}
+	for _, character := range password {
+		switch {
+		case unicode.IsUpper(character):
+			hasUpper = true
+		case unicode.IsLower(character):
+			hasLower = true
+		case unicode.IsNumber(character):
+			hasNumber = true
+		case unicode.IsSymbol(character) || unicode.IsPunct(character):
+			hasSpecial = true
+		}
+	}
+	return hasMinlen && hasUpper && hasLower && hasNumber && hasSpecial
+}
+
+func GetQuarter(currentMonth int64) string {
+	if currentMonth >= 1 && currentMonth <= 3 {
+		return "1"
+	}
+	if currentMonth >= 4 && currentMonth <= 6 {
+		return "2"
+	}
+	if currentMonth >= 7 && currentMonth <= 9 {
+		return "3"
+	}
+	if currentMonth >= 10 && currentMonth <= 12 {
+		return "4"
+	}
+	return ""
+}
+
+func GetMonthRageFromQuarter(quarter string) []int {
+	var monthRange []int
+	switch quarter {
+	case "1":
+		monthRange = append(monthRange, 1, 3)
+		break
+	case "2":
+		monthRange = append(monthRange, 4, 6)
+		break
+	case "3":
+		monthRange = append(monthRange, 7, 9)
+		break
+	case "4":
+		monthRange = append(monthRange, 10, 12)
+		break
+
+	}
+	return monthRange
+}
+
+func NextPage(page, totalPages int) int {
+	if page == totalPages {
+		return page
+	}
+	return page + 1
+}
+
+func PrevPage(page int) int {
+	if page > 1 {
+		return page - 1
+	}
+	return page
+}
+
+func SortedBy(sort []string) []string {
+	var sorted []string
+	for _, value := range sort {
+		split := strings.Split(",", value)
+		sorted = append(sorted, fmt.Sprintf("%s %s", split[0], split[1]))
+	}
+	return sorted
+}
+
+func Offset(page, limit int) int {
+	offset := 0
+	if page == 1 {
+		offset = 0
+	} else {
+		offset = (page - 1) * limit
+	}
+	return offset
+}
+
+func TotalPages(count, limit int) int {
+	return int(math.Ceil(float64(count) / float64(limit)))
+}
+
+func IsNumeric(strings string) bool {
+	_, err := strconv.ParseFloat(strings, 64)
+	return err == nil
 }

@@ -32,45 +32,11 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/changepassword": {
-            "put": {
-                "security": [
-                    {
-                        "token": []
-                    }
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Change Password",
-                "operationId": "ChangePassword",
-                "responses": {
-                    "200": {
-                        "description": "token: \"exampletokenresponse\" ",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
-                        }
-                    },
-                    "401": {
-                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseErrors"
-                        }
-                    },
-                    "422": {
-                        "description": "code: 422, message: \"Invalid request\" ",
-                        "schema": {
-                            "$ref": "#/definitions/models.ResponseErrors"
-                        }
-                    }
-                }
-            }
-        },
         "/api/v1/diary/create": {
             "post": {
                 "security": [
                     {
-                        "token": []
+                        "Token": []
                     }
                 ],
                 "tags": [
@@ -78,15 +44,26 @@ var doc = `{
                 ],
                 "summary": "Create Diary",
                 "operationId": "CreateDiary",
+                "parameters": [
+                    {
+                        "description": "all fields mandatory. for datePost (ex: DD-MM-YYYY)",
+                        "name": "create",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ReqCreateDiary"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "token: \"exampletokenresponse\" ",
+                        "description": "Diary Successfully Created",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseSuccess"
                         }
                     },
                     "401": {
-                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
+                        "description": "code: 401, message: \"JWT Token is not valid\" ",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseErrors"
                         }
@@ -104,7 +81,7 @@ var doc = `{
             "delete": {
                 "security": [
                     {
-                        "token": []
+                        "Token": []
                     }
                 ],
                 "tags": [
@@ -112,9 +89,18 @@ var doc = `{
                 ],
                 "summary": "Delete Diary",
                 "operationId": "DeleteDiary",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Diary ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "token: \"exampletokenresponse\" ",
+                        "description": "Diary Successfully Deleted\" ",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseSuccess"
                         }
@@ -138,7 +124,7 @@ var doc = `{
             "get": {
                 "security": [
                     {
-                        "token": []
+                        "Token": []
                     }
                 ],
                 "tags": [
@@ -146,9 +132,37 @@ var doc = `{
                 ],
                 "summary": "List All Diaries",
                 "operationId": "ListAllDiaries",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": " ",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": " ",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "year of posted diaries",
+                        "name": "year",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Quarter of diaries: ex (1 : January - March, 2: April - June, 3: July - September, 4: October - December)",
+                        "name": "quarter",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "token: \"exampletokenresponse\" ",
+                        "description": "models.Pagination",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseSuccess"
                         }
@@ -172,7 +186,7 @@ var doc = `{
             "put": {
                 "security": [
                     {
-                        "token": []
+                        "Token": []
                     }
                 ],
                 "tags": [
@@ -180,15 +194,33 @@ var doc = `{
                 ],
                 "summary": "Update Diary",
                 "operationId": "UpdateDiary",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Diary ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "all fields mandatory. for datePost (ex: DD-MM-YYYY)",
+                        "name": "update",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ReqUpdateDiary"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "token: \"exampletokenresponse\" ",
+                        "description": "Diary Successfully Updated",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseSuccess"
                         }
                     },
                     "401": {
-                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
+                        "description": "code: 401, message: \"Invalid ID\" ",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseErrors"
                         }
@@ -206,7 +238,7 @@ var doc = `{
             "get": {
                 "security": [
                     {
-                        "token": []
+                        "Token": []
                     }
                 ],
                 "tags": [
@@ -216,9 +248,9 @@ var doc = `{
                 "operationId": "GetDiaryById",
                 "responses": {
                     "200": {
-                        "description": "token: \"exampletokenresponse\" ",
+                        "description": "entity.UserDiary",
                         "schema": {
-                            "$ref": "#/definitions/models.ResponseSuccess"
+                            "$ref": "#/definitions/entity.UserDiary"
                         }
                     },
                     "401": {
@@ -250,13 +282,13 @@ var doc = `{
                 "operationId": "Get Current Device ID",
                 "responses": {
                     "200": {
-                        "description": "token: \"exampletokenresponse\" ",
+                        "description": "exampledeviceid",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseSuccess"
                         }
                     },
                     "401": {
-                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
+                        "description": "code: 401, message: \"device ID not found\" ",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseErrors"
                         }
@@ -319,7 +351,7 @@ var doc = `{
                 "operationId": "RegisterUser",
                 "parameters": [
                     {
-                        "description": "all fields mandatory",
+                        "description": "all fields mandatory. ex: (Birthday format DD-MM-YYYY)",
                         "name": "register",
                         "in": "body",
                         "required": true,
@@ -330,13 +362,13 @@ var doc = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "token: \"exampletokenresponse\" ",
+                        "description": "token: \"User Successfully Registered\" ",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseSuccess"
                         }
                     },
                     "401": {
-                        "description": "code: 401, message: \"Username or password not valid, please try again\" ",
+                        "description": "code: 401, message: \"Invalid Email Format\" ",
                         "schema": {
                             "$ref": "#/definitions/models.ResponseErrors"
                         }
@@ -352,6 +384,63 @@ var doc = `{
         }
     },
     "definitions": {
+        "entity.UserDiary": {
+            "type": "object",
+            "properties": {
+                "bodyText": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "datePost": {
+                    "type": "string"
+                },
+                "deletedAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.ReqCreateDiary": {
+            "type": "object",
+            "properties": {
+                "bodyText": {
+                    "type": "string"
+                },
+                "datePost": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ReqUpdateDiary": {
+            "type": "object",
+            "properties": {
+                "bodyText": {
+                    "type": "string"
+                },
+                "datePost": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
         "models.ReqUserLogin": {
             "type": "object",
             "required": [

@@ -44,30 +44,27 @@ func ResponseJSON(c *fiber.Ctx, data interface{}) error {
 }
 
 // ResponsePagination ...
-func ResponsePagination(c *fiber.Ctx, data Pagination) {
-	c.JSON(fiber.Map{"code": http.StatusOK, "data": data})
-	return
+func ResponsePagination(c *fiber.Ctx, data Pagination) error {
+	return c.JSON(fiber.Map{"code": http.StatusOK, "data": data})
+
 }
 
 // ResponseCreated Set response for created process
-func ResponseCreated(c *fiber.Ctx, message interface{}) {
-	c.JSON(fiber.Map{"code": http.StatusCreated, "message": message})
-	return
+func ResponseCreated(c *fiber.Ctx, message interface{}) error {
+	return c.JSON(fiber.Map{"code": http.StatusCreated, "message": message})
 }
 
 // ResponseUpdated Set response for update process
-func ResponseUpdated(c *fiber.Ctx, message interface{}) {
-	c.JSON(fiber.Map{"code": http.StatusNoContent, "message": message})
-	return
+func ResponseUpdated(c *fiber.Ctx, message interface{}) error {
+	return c.JSON(fiber.Map{"code": http.StatusNoContent, "message": message})
 }
 
 // ResponseDeleted Set response for delete process
-func ResponseDeleted(c *fiber.Ctx, message interface{}) {
+func ResponseDeleted(c *fiber.Ctx, message interface{}) error {
 	if message == "" {
 		message = "Resource Deleted"
 	}
-	c.JSON(fiber.Map{"code": http.StatusNoContent, "data": message})
-	return
+	return c.JSON(fiber.Map{"code": http.StatusNoContent, "data": message})
 }
 
 // ResponseError Set response for delete process

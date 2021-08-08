@@ -4,10 +4,12 @@ import (
 	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
 	Diary "github.com/henrioseptiano/taptalk-diary/app/diaries/controller"
+	DiariesRepo "github.com/henrioseptiano/taptalk-diary/app/diaries/repository"
 	DiaryService "github.com/henrioseptiano/taptalk-diary/app/diaries/services"
 	User "github.com/henrioseptiano/taptalk-diary/app/users/controller"
 	UserRepo "github.com/henrioseptiano/taptalk-diary/app/users/repository"
 	UserService "github.com/henrioseptiano/taptalk-diary/app/users/services"
+
 	"github.com/henrioseptiano/taptalk-diary/middleware"
 	"gorm.io/gorm"
 )
@@ -27,11 +29,11 @@ func UserRoutes(app *fiber.App, db *gorm.DB) {
 	r.Post("/login", user.Login)
 	r.Post("/register", user.Register)
 	r.Get("/getcurrentdeviceid", middleware.JwtProtected(), user.GetCurrentDeviceID)
-	r.Put("/changepassword", middleware.JwtProtected(), user.ChangePassword)
 }
 
-func DiaryRoutes(app *fiber.App) {
-	diaryService := DiaryService.New()
+func DiaryRoutes(app *fiber.App, db *gorm.DB) {
+	diaryRepo := DiariesRepo.New(db)
+	diaryService := DiaryService.New(diaryRepo)
 	diary := &Diary.DiariesController{DiariesServices: diaryService}
 	r := app.Group("/api/v1/diary")
 	r.Post("/create", middleware.JwtProtected(), diary.CreateDiary)
