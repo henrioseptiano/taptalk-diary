@@ -89,7 +89,7 @@ func (u *DiariesController) DeleteDiary(c *fiber.Ctx) error {
 		return models.ResponseError(c, err.Error(), 401)
 	}
 	u.DiariesServices.Delete(claims.ID, int64(diaryID))
-	return models.ResponseJSON(c, fiber.Map{"token": "Diary Successfully Deleted"})
+	return models.ResponseJSON(c, fiber.Map{"message": "Diary Successfully Deleted"})
 }
 
 // ListAllDiaries godoc
